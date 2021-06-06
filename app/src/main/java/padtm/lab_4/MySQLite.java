@@ -98,6 +98,5 @@ public class MySQLite extends SQLiteOpenHelper {
         SQLiteDatabase db =
                 this.getReadableDatabase();
         return db.rawQuery("Select * from animals", null);
-
     }
 }
