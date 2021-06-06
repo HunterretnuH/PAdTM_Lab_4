@@ -18,7 +18,6 @@ import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList<String> target;
     private SimpleCursorAdapter adapter;
     private MySQLite db;
 
@@ -28,8 +27,6 @@ public class MainActivity extends AppCompatActivity {
                                          "Chomik", "Mysz", "Jeż", "Karaluch"};
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.target = new ArrayList<String>();
-        this.target.addAll(Arrays.asList(values));
         this.db = new MySQLite(this);
         this.adapter = new SimpleCursorAdapter(
                 this,
@@ -64,8 +61,9 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode==1 && resultCode==RESULT_OK)
         {
             Bundle extras = data.getExtras();
-            String nowy = (String)extras.get("wpis");
-            target.add(nowy);
+            Animal nowy = (Animal)extras.getSerializable("nowy");
+            this.db.dodaj(nowy);
+            adapter.changeCursor(db.lista());
             adapter.notifyDataSetChanged();
         }
     }
